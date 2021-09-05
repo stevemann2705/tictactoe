@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class MoveService {
     private final MoveRepository moveRepository;
-    private final GameService gameService;
 
     public Move saveMove(Player player, Board board, int row, int col, PieceType pieceType) {
         Move move = new Move();
@@ -23,12 +22,6 @@ public class MoveService {
         move.setBoardRow(row);
         move.setBoardColumn(col);
         move.setPieceType(pieceType);
-
-        PieceType wonBy = gameService.checkGameOver(board, pieceType, row, col);
-
-        if (wonBy != null) {
-            board.setGame(gameService.updateGameStatus(board.getGame(), wonBy));
-        }
 
         return moveRepository.save(move);
     }

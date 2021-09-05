@@ -1,6 +1,7 @@
 package in.stevemann.tictactoe.services;
 
 import in.stevemann.tictactoe.entities.Game;
+import in.stevemann.tictactoe.entities.Move;
 import in.stevemann.tictactoe.entities.Player;
 import in.stevemann.tictactoe.entities.QGame;
 import in.stevemann.tictactoe.enums.GameStatus;
@@ -8,13 +9,21 @@ import in.stevemann.tictactoe.enums.GridType;
 import in.stevemann.tictactoe.enums.PieceType;
 import in.stevemann.tictactoe.pojos.Board;
 import in.stevemann.tictactoe.repositories.GameRepository;
+import in.stevemann.tictactoe.utils.PrintBoardUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Comparator;
+import java.util.Scanner;
 
 @Service
 @AllArgsConstructor
 public class GameService {
     private final GameRepository gameRepository;
+
+    public Game save(Game game) {
+        return gameRepository.save(game);
+    }
 
     public Game findGame(String gameCode) {
         return gameRepository.findOne(
@@ -31,7 +40,7 @@ public class GameService {
         game.setGridType(gridType);
         game.setStatus(GameStatus.IN_PROGRESS);
 
-        return gameRepository.save(game);
+        return save(game);
     }
 
     public Game updateGameStatus(Game game, PieceType pieceType) {
@@ -41,7 +50,18 @@ public class GameService {
         if (PieceType.Y.equals(pieceType)) {
             game.setStatus(GameStatus.SECOND_PLAYER_WON);
         }
-        return gameRepository.save(game);
+        return save(game);
+    }
+
+    // returns if game is still in progress
+    public boolean checkGameOver(Board board, PieceType pieceType, int position) {
+        int row = (position - 1) / board.getGame().getGridType().getSize();
+        int col = (position - (row * board.getGame().getGridType().getSize())) - 1;
+        PieceType wonBy = checkGameOver(board, pieceType, row, col);
+        if (wonBy != null) {
+            board.setGame(updateGameStatus(board.getGame(), wonBy));
+        }
+        return wonBy == null;
     }
 
     // Returns PieceType that won. Else returns null
@@ -97,7 +117,7 @@ public class GameService {
             throw new RuntimeException("Game not found or game already completed.");
 
         game.setStatus(GameStatus.PAUSED);
-        return gameRepository.save(game);
+        return save(game);
     }
 
     public Game resumeGame(String gameCode) {
@@ -109,6 +129,6 @@ public class GameService {
             throw new RuntimeException("Game not found or game not paused.");
 
         game.setStatus(GameStatus.IN_PROGRESS);
-        return gameRepository.save(game);
+        return save(game);
     }
 }
