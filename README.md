@@ -39,7 +39,7 @@ $ ./mvnw spring-boot:run
 
 Returns the player
 
-####**Sample response**
+####Sample response
 
 ```json
 {
@@ -63,7 +63,7 @@ Saves a new player. Returns the saved player.
 
 Throws 409 (CONFLICT) if player with username already exists
 
-####**Sample request body**
+####Sample request body
 
 Username should be unique.
 
@@ -74,7 +74,7 @@ Username should be unique.
 }
 ```
 
-####**Sample response**
+####Sample response
 ```json
 {
   "id": 1,
@@ -91,7 +91,7 @@ Username should be unique.
 }
 ```
 
-####**Sample error response**
+####Sample error response
 ```json
 {
   "timestamp": "2021-09-05T21:02:04.475+00:00",
@@ -108,7 +108,7 @@ Updates a player based on username. Returns the saved player.
 
 Throws 404 (NOT_FOUND) if player with username doesn't exist.
 
-####**Sample request body**
+####Sample request body
 
 ```json
 {
@@ -117,7 +117,7 @@ Throws 404 (NOT_FOUND) if player with username doesn't exist.
 }
 ```
 
-####**Sample response**
+####Sample response
 ```json
 {
   "id": 1,
@@ -134,7 +134,7 @@ Throws 404 (NOT_FOUND) if player with username doesn't exist.
 }
 ```
 
-####**Sample error response**
+####Sample error response
 ```json
 {
   "timestamp": "2021-09-05T21:02:04.475+00:00",
@@ -150,7 +150,7 @@ Throws 404 (NOT_FOUND) if player with username doesn't exist.
 
 Deletes the player (disables it in database). Returns the disabled player.
 
-####**Sample response**
+####Sample response
 
 ```json
 {
@@ -175,7 +175,7 @@ Deletes the player (disables it in database). Returns the disabled player.
 
 Returns the game
 
-####**Sample response**
+####Sample response
 
 ```json
 {
@@ -227,7 +227,7 @@ Creates a new game. Returns the saved game.
 
 Throws 404 (NOT_FOUND) if any player not found.
 
-####**Sample request body**
+####Sample request body
 
 Username should be unique.
 
@@ -239,7 +239,7 @@ Username should be unique.
 }
 ```
 
-####**Sample response**
+####Sample response
 ```json
 {
   "code": "157b118f-c310-4555-a0f3-1fe2a3ecd7ed",
@@ -284,7 +284,7 @@ Username should be unique.
 }
 ```
 
-####**Sample error response**
+####Sample error response
 ```json
 {
   "timestamp": "2021-09-05T21:22:31.612+00:00",
@@ -300,7 +300,7 @@ Username should be unique.
 
 Deletes the game (disables it in database). Returns the disabled game.
 
-####**Sample response**
+####Sample response
 
 ```json
 {
