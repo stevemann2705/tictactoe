@@ -3,7 +3,6 @@ package in.stevemann.tictactoe.entities;
 import in.stevemann.tictactoe.entities.base.BaseEntity;
 import in.stevemann.tictactoe.enums.GameStatus;
 import in.stevemann.tictactoe.enums.GridType;
-import in.stevemann.tictactoe.enums.PieceType;
 import lombok.Getter;
 import lombok.Setter;
 

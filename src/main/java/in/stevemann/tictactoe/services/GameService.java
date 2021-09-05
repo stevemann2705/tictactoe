@@ -9,13 +9,16 @@ import in.stevemann.tictactoe.enums.PieceType;
 import in.stevemann.tictactoe.pojos.Board;
 import in.stevemann.tictactoe.repositories.GameRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @AllArgsConstructor
 public class GameService {
     private final GameRepository gameRepository;
+    private final PlayerService playerService;
 
     public Game save(Game game) {
         return gameRepository.save(game);
@@ -26,6 +29,24 @@ public class GameService {
                 QGame.game.enabled.isTrue()
                         .and(QGame.game.code.eq(gameCode))
         ).orElse(null);
+    }
+
+    public Game getGame(String gameCode) {
+        Game game = findGame(gameCode);
+        if (game == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found");
+        return game;
+    }
+
+    public Game deleteGame(String gameCode) {
+        Game game = getGame(gameCode);
+        game.setEnabled(false);
+        return save(game);
+    }
+
+    public Game newGame(String firstPlayerUsername, String secondPlayerUsername, GridType gridType) {
+        Player firstPlayer = playerService.getPlayerByUsername(firstPlayerUsername);
+        Player secondPlayer = playerService.getPlayerByUsername(secondPlayerUsername);
+        return newGame(firstPlayer, secondPlayer, gridType);
     }
 
     public Game newGame(Player firstPlayer, Player secondPlayer, GridType gridType) {
@@ -121,7 +142,7 @@ public class GameService {
 
     public Game pauseGame(Game game) {
         if (game == null || !game.getStatus().equals(GameStatus.IN_PROGRESS))
-            throw new RuntimeException("Game not found or game already completed.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found or game already completed.");
 
         System.out.println("Pausing the game now. You can resume the game using game code: " + game.getCode());
         game.setStatus(GameStatus.PAUSED);
@@ -134,7 +155,7 @@ public class GameService {
 
     public Game resumeGame(Game game) {
         if (game == null || !game.getStatus().equals(GameStatus.PAUSED))
-            throw new RuntimeException("Game not found or game not paused.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found or game not paused.");
 
         game.setStatus(GameStatus.IN_PROGRESS);
         return save(game);
