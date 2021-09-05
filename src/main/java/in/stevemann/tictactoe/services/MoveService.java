@@ -26,6 +26,12 @@ public class MoveService {
         return moveRepository.save(move);
     }
 
+    public boolean makeMove(Player player, Board board, int position) {
+        int row = (position - 1) / 3;
+        int col = (position - (row * 3)) - 1;
+        return makeMove(player, board, row, col);
+    }
+
     public boolean makeMove(Player player, Board board, int row, int col) {
         PieceType playerPieceOnBoard = getPlayerPieceOnBoard(board, player);
         return makeMove(player, board, row, col, playerPieceOnBoard, true);
