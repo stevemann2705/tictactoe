@@ -4,6 +4,7 @@ import in.stevemann.tictactoe.pojos.Board;
 
 public class PrintBoardUtil {
     public static void printPositions(Board board) {
+        System.out.println("POSITIONS TO BE ENTERED ARE: ");
         int gridSize = board.getGame().getGridType().getSize();
         for(int rowNumber = 0; rowNumber < gridSize * 2 + 1; rowNumber++) {
             printRow(board, gridSize, rowNumber, true);
@@ -11,6 +12,7 @@ public class PrintBoardUtil {
     }
 
     public static void printCurrentBoard(Board board) {
+        System.out.println("CURRENT BOARD: ");
         int gridSize = board.getGame().getGridType().getSize();
         for(int rowNumber = 0; rowNumber < gridSize * 2 + 1; rowNumber++) {
             printRow(board, gridSize, rowNumber, false);
@@ -30,9 +32,10 @@ public class PrintBoardUtil {
                 if (printPositions) {
                     System.out.print(j);
                 } else {
-                    if (board.getBoard()[row][j-colStartNumber] == 0) System.out.print(" ");
-                    if (board.getBoard()[row][j-colStartNumber] == 1) System.out.print("X");
-                    if (board.getBoard()[row][j-colStartNumber] == 2) System.out.print("O");
+                    int boardRow = row/2;
+                    if (board.getBoard()[boardRow][j-colStartNumber] == 0) System.out.print(" ");
+                    if (board.getBoard()[boardRow][j-colStartNumber] == 1) System.out.print("X");
+                    if (board.getBoard()[boardRow][j-colStartNumber] == 2) System.out.print("O");
                 }
             }
         }
