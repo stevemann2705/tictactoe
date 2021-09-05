@@ -17,7 +17,7 @@
 
 <!-- /TOC -->
 
-###About
+### About
 A Tic Tac Toe game can have a grid of X3, X4 or X5 (more can be added with minimal change).
 
 Players are assigned "X" or "0" for each game and each player plays on his turn.
