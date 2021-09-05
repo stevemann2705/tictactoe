@@ -64,7 +64,7 @@ public class GameService {
         if (PieceType.X.equals(pieceType)) {
             game.setStatus(GameStatus.FIRST_PLAYER_WON);
         }
-        if (PieceType.Y.equals(pieceType)) {
+        if (PieceType.O.equals(pieceType)) {
             game.setStatus(GameStatus.SECOND_PLAYER_WON);
         }
         return save(game);
@@ -154,10 +154,14 @@ public class GameService {
     }
 
     public Game resumeGame(Game game) {
-        if (game == null || !game.getStatus().equals(GameStatus.PAUSED))
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found or game not paused.");
+        if (game == null)
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found.");
 
-        game.setStatus(GameStatus.IN_PROGRESS);
-        return save(game);
+        if (GameStatus.PAUSED.equals(game.getStatus())) {
+            game.setStatus(GameStatus.IN_PROGRESS);
+            game = save(game);
+        }
+
+        return game;
     }
 }

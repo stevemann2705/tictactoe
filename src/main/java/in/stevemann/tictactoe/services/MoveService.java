@@ -42,8 +42,7 @@ public class MoveService {
 
     public boolean makeMove(Player player, Board board, int row, int col, PieceType pieceType, boolean save) {
         if (board.getBoard()[row][col] == 0) {
-            if (PieceType.X.equals(pieceType)) board.getBoard()[row][col] = 1;
-            if (PieceType.Y.equals(pieceType)) board.getBoard()[row][col] = 2;
+            board.getBoard()[row][col] = pieceType.getValue();
             if (save) {
                 Move move = saveMove(player, board, row, col, pieceType);
                 updateMovesInGame(board.getGame(), move);
@@ -68,7 +67,7 @@ public class MoveService {
         if (isFirstPlayer) {
             return PieceType.X;
         } else {
-            return PieceType.Y;
+            return PieceType.O;
         }
     }
 }

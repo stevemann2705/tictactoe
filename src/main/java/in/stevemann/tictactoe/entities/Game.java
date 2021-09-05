@@ -1,5 +1,7 @@
 package in.stevemann.tictactoe.entities;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import in.stevemann.tictactoe.entities.base.BaseEntity;
 import in.stevemann.tictactoe.enums.GameStatus;
 import in.stevemann.tictactoe.enums.GridType;
@@ -12,6 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "code")
 public class Game extends BaseEntity {
     @ManyToOne
     private Player firstPlayer;
