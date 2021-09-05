@@ -5,6 +5,8 @@ import in.stevemann.tictactoe.entities.Player;
 import in.stevemann.tictactoe.entities.QGame;
 import in.stevemann.tictactoe.enums.GameStatus;
 import in.stevemann.tictactoe.enums.GridType;
+import in.stevemann.tictactoe.enums.PieceType;
+import in.stevemann.tictactoe.pojos.Board;
 import in.stevemann.tictactoe.repositories.GameRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,5 +32,63 @@ public class GameService {
         game.setStatus(GameStatus.IN_PROGRESS);
 
         return gameRepository.save(game);
+    }
+
+    public Game updateGameStatus(Game game, PieceType pieceType) {
+        if (PieceType.X.equals(pieceType)) {
+            game.setStatus(GameStatus.FIRST_PLAYER_WON);
+        }
+        if (PieceType.Y.equals(pieceType)) {
+            game.setStatus(GameStatus.SECOND_PLAYER_WON);
+        }
+        return gameRepository.save(game);
+    }
+
+    // Returns PieceType that won. Else returns null
+    public PieceType checkGameOver(Board board, PieceType pieceType, int row, int col) {
+        int s = pieceType.getValue();
+
+        //check column for a win
+        int n = board.getGame().getGridType().getSize();
+        for (int boardColumn = 0; boardColumn < n; boardColumn++) {
+            if (board.getBoard()[row][boardColumn] != s)
+                break;
+            if (boardColumn == n - 1) {
+                return pieceType;
+            }
+        }
+
+        //check row for a win
+        for (int boardRow = 0; boardRow < n; boardRow++) {
+            if (board.getBoard()[boardRow][col] != s)
+                break;
+            if (boardRow == n - 1) {
+                return pieceType;
+            }
+        }
+
+        //check diagonal for a win
+        if (row == col) {
+            for (int diag = 0; diag < n; diag++) {
+                if (board.getBoard()[diag][diag] != s)
+                    break;
+                if (diag == n - 1) {
+                    return pieceType;
+                }
+            }
+        }
+
+        //check anti diagonal for a win
+        if (row + col == n - 1) {
+            for (int diag = 0; diag < n; diag++) {
+                if (board.getBoard()[diag][(n - 1) - diag] != s)
+                    break;
+                if (diag == n - 1) {
+                    return pieceType;
+                }
+            }
+        }
+
+        return null;
     }
 }

@@ -6,5 +6,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum PieceType {
-    X, Y
+    X(1), Y(2);
+
+    private int value;
 }

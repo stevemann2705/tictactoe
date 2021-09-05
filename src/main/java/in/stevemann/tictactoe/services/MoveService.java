@@ -13,15 +13,22 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class MoveService {
     private final MoveRepository moveRepository;
+    private final GameService gameService;
 
-    public Move saveMove(Player player, Game game, int row, int col, PieceType pieceType) {
+    public Move saveMove(Player player, Board board, int row, int col, PieceType pieceType) {
         Move move = new Move();
 
         move.setPlayer(player);
-        move.setGame(game);
+        move.setGame(board.getGame());
         move.setBoardRow(row);
         move.setBoardColumn(col);
         move.setPieceType(pieceType);
+
+        PieceType wonBy = gameService.checkGameOver(board, pieceType, row, col);
+
+        if (wonBy != null) {
+            board.setGame(gameService.updateGameStatus(board.getGame(), wonBy));
+        }
 
         return moveRepository.save(move);
     }
@@ -41,7 +48,7 @@ public class MoveService {
         if (board.getBoard()[row][col] == 0) {
             if (PieceType.X.equals(pieceType)) board.getBoard()[row][col] = 1;
             if (PieceType.Y.equals(pieceType)) board.getBoard()[row][col] = 2;
-            if (save) saveMove(player, board.getGame(), row, col, pieceType);
+            if (save) saveMove(player, board, row, col, pieceType);
             return true; // true means move was made
         }
         return false; // false means move was not made because position already take. // TODO: Will need error handling later
