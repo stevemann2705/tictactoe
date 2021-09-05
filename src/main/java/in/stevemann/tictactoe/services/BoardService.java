@@ -26,4 +26,13 @@ public class BoardService {
         }
         return board;
     }
+
+    public boolean isBoardFull(Board board) {
+        for (int row = 0; row < board.getBoard().length; row++) {
+            for (int col = 0; col < board.getBoard()[0].length; col++) {
+                if (board.getBoard()[row][col] == 0) return false;
+            }
+        }
+        return true;
+    }
 }
