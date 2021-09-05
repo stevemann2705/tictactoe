@@ -9,6 +9,9 @@ import in.stevemann.tictactoe.repositories.MoveRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class MoveService {
@@ -41,10 +44,23 @@ public class MoveService {
         if (board.getBoard()[row][col] == 0) {
             if (PieceType.X.equals(pieceType)) board.getBoard()[row][col] = 1;
             if (PieceType.Y.equals(pieceType)) board.getBoard()[row][col] = 2;
-            if (save) saveMove(player, board, row, col, pieceType);
+            if (save) {
+                Move move = saveMove(player, board, row, col, pieceType);
+                updateMovesInGame(board.getGame(), move);
+            }
+
             return true; // true means move was made
         }
         return false; // false means move was not made because position already take. // TODO: Will need error handling later
+    }
+
+    private void updateMovesInGame(Game game, Move move) {
+        List<Move> moves = game.getMoves();
+        if (moves == null) {
+            moves = new ArrayList<>();
+        }
+        moves.add(move);
+        game.setMoves(moves);
     }
 
     public PieceType getPlayerPieceOnBoard(Board board, Player player) {

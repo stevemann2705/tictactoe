@@ -46,13 +46,12 @@ public class GamePlayService {
             if (!isValidPosition) {
                 // TODO: Handle this better
                 System.out.println("Position entered is already marked as filled. Please choose another position");
-                System.out.println("Pausing the game now. You can resume the game using game code: " + board.getGame().getCode());
                 gameService.pauseGame(board.getGame());
                 return;
             }
             PieceType playerPieceOnBoard = moveService.getPlayerPieceOnBoard(board, turn);
 
-            isGameInProgress = gameService.checkGameOver(board, playerPieceOnBoard, position);
+            isGameInProgress = gameService.isGameInProgress(board, playerPieceOnBoard, position);
 
             secondPlayerTurn = !secondPlayerTurn; // change turn
         }

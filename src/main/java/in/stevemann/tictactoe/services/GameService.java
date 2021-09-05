@@ -1,7 +1,6 @@
 package in.stevemann.tictactoe.services;
 
 import in.stevemann.tictactoe.entities.Game;
-import in.stevemann.tictactoe.entities.Move;
 import in.stevemann.tictactoe.entities.Player;
 import in.stevemann.tictactoe.entities.QGame;
 import in.stevemann.tictactoe.enums.GameStatus;
@@ -9,12 +8,9 @@ import in.stevemann.tictactoe.enums.GridType;
 import in.stevemann.tictactoe.enums.PieceType;
 import in.stevemann.tictactoe.pojos.Board;
 import in.stevemann.tictactoe.repositories.GameRepository;
-import in.stevemann.tictactoe.utils.PrintBoardUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.Comparator;
-import java.util.Scanner;
+import org.springframework.util.CollectionUtils;
 
 @Service
 @AllArgsConstructor
@@ -54,18 +50,29 @@ public class GameService {
     }
 
     // returns if game is still in progress
-    public boolean checkGameOver(Board board, PieceType pieceType, int position) {
+    public boolean isGameInProgress(Board board, PieceType pieceType, int position) {
         int row = (position - 1) / board.getGame().getGridType().getSize();
         int col = (position - (row * board.getGame().getGridType().getSize())) - 1;
-        PieceType wonBy = checkGameOver(board, pieceType, row, col);
+        PieceType wonBy = checkGameWonBy(board, pieceType, row, col);
         if (wonBy != null) {
             board.setGame(updateGameStatus(board.getGame(), wonBy));
+        } else {
+            //check draw
+            int moveCount = 0;
+            if (!CollectionUtils.isEmpty(board.getGame().getMoves())) {
+                moveCount = board.getGame().getMoves().size();
+            }
+            if (moveCount == (Math.pow(board.getGame().getGridType().getSize(), 2) - 1)) {
+                board.getGame().setStatus(GameStatus.DRAW);
+                save(board.getGame());
+                return false; // game over on draw
+            }
         }
         return wonBy == null;
     }
 
     // Returns PieceType that won. Else returns null
-    public PieceType checkGameOver(Board board, PieceType pieceType, int row, int col) {
+    public PieceType checkGameWonBy(Board board, PieceType pieceType, int row, int col) {
         int s = pieceType.getValue();
 
         //check column for a win
@@ -116,6 +123,7 @@ public class GameService {
         if (game == null || !game.getStatus().equals(GameStatus.IN_PROGRESS))
             throw new RuntimeException("Game not found or game already completed.");
 
+        System.out.println("Pausing the game now. You can resume the game using game code: " + game.getCode());
         game.setStatus(GameStatus.PAUSED);
         return save(game);
     }
