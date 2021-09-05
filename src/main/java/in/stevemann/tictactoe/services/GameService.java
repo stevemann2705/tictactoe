@@ -91,4 +91,20 @@ public class GameService {
 
         return null;
     }
+
+    public Game pauseGame(Game game) {
+        if (game == null || !game.getStatus().equals(GameStatus.IN_PROGRESS))
+            throw new RuntimeException("Game not found or game already completed.");
+
+        game.setStatus(GameStatus.PAUSED);
+        return gameRepository.save(game);
+    }
+
+    public Game resumeGame(Game game) {
+        if (game == null || !game.getStatus().equals(GameStatus.PAUSED))
+            throw new RuntimeException("Game not found or game not paused.");
+
+        game.setStatus(GameStatus.IN_PROGRESS);
+        return gameRepository.save(game);
+    }
 }
