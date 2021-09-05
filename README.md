@@ -26,6 +26,8 @@ Players are assigned "X" or "0" for each game and each player plays on his turn.
 
 # How to run
 
+***Note***: Server runs on port 8050
+
 ```bash
 $ ./mvnw spring-boot:run
 ```
