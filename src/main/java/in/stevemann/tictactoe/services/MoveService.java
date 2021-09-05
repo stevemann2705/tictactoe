@@ -27,8 +27,8 @@ public class MoveService {
     }
 
     public boolean makeMove(Player player, Board board, int position) {
-        int row = (position - 1) / 3;
-        int col = (position - (row * 3)) - 1;
+        int row = (position - 1) / board.getGame().getGridType().getSize();
+        int col = (position - (row * board.getGame().getGridType().getSize())) - 1;
         return makeMove(player, board, row, col);
     }
 
