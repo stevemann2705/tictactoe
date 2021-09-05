@@ -18,7 +18,7 @@ public class PlayerService {
         ).orElse(null);
     }
 
-    private boolean playerExistsByUserName(String username) {
+    public boolean playerExistsByUserName(String username) {
         return playerRepository.exists(
                 QPlayer.player.enabled.isTrue()
                         .and(QPlayer.player.username.eq(username))
