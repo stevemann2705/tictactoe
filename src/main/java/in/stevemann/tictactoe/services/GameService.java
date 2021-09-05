@@ -100,6 +100,10 @@ public class GameService {
         return gameRepository.save(game);
     }
 
+    public Game resumeGame(String gameCode) {
+        return resumeGame(findGame(gameCode));
+    }
+
     public Game resumeGame(Game game) {
         if (game == null || !game.getStatus().equals(GameStatus.PAUSED))
             throw new RuntimeException("Game not found or game not paused.");
