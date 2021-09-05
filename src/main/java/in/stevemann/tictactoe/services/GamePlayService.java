@@ -3,6 +3,7 @@ package in.stevemann.tictactoe.services;
 import in.stevemann.tictactoe.entities.Game;
 import in.stevemann.tictactoe.entities.Move;
 import in.stevemann.tictactoe.entities.Player;
+import in.stevemann.tictactoe.enums.GridType;
 import in.stevemann.tictactoe.enums.PieceType;
 import in.stevemann.tictactoe.pojos.Board;
 import in.stevemann.tictactoe.utils.PrintBoardUtil;
@@ -32,7 +33,7 @@ public class GamePlayService {
         boolean isGameInProgress = true;
         while (isGameInProgress && !boardService.isBoardFull(board)) {
             PrintBoardUtil.printCurrentBoard(board);
-            int position = getPosition(userInputReader, secondPlayerTurn);
+            int position = getPosition(userInputReader, secondPlayerTurn, board.getGame().getGridType());
             // pause game if position is -10
             if (position == -10) {
                 gameService.pauseGame(board.getGame());
@@ -65,16 +66,25 @@ public class GamePlayService {
         }
     }
 
-    private int getPosition(Scanner userInputReader, Boolean secondPlayerTurn) throws NumberFormatException {
+    private int getPosition(Scanner userInputReader, Boolean secondPlayerTurn, GridType gridType) throws NumberFormatException {
         int position;
         System.out.println(((secondPlayerTurn) ? "Second Player. " : "First Player. ") + "Please enter a position or enter -10 to pause:");
         try {
             position = Integer.parseInt(userInputReader.nextLine());
         } catch (NumberFormatException e) {
-            System.out.println("Invalid Input. Try Again.");
-            return getPosition(userInputReader, secondPlayerTurn);
+            return retryInput(userInputReader, secondPlayerTurn, gridType);
         }
+
+        if (position > gridType.getSize() * gridType.getSize()) {
+            return retryInput(userInputReader, secondPlayerTurn, gridType);
+        }
+
         return position;
+    }
+
+    private int retryInput(Scanner userInputReader, Boolean secondPlayerTurn, GridType gridType) {
+        System.out.println("Invalid Input. Try Again.");
+        return getPosition(userInputReader, secondPlayerTurn, gridType);
     }
 
     public boolean isSecondPlayerTurn(Game game) {
