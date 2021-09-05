@@ -45,9 +45,8 @@ public class GamePlayService {
             boolean isValidPosition = moveService.makeMove(turn, board, position);
 
             if (!isValidPosition) {
-                // TODO: Handle this better
                 System.out.println("Position entered is already marked as filled. Please choose another position");
-                gameService.pauseGame(board.getGame());
+                playGame(board, secondPlayerTurn);
                 return;
             }
             PieceType playerPieceOnBoard = moveService.getPlayerPieceOnBoard(board, turn);
