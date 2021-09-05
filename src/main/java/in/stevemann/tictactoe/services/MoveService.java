@@ -45,7 +45,7 @@ public class MoveService {
             board.getBoard()[row][col] = pieceType.getValue();
             if (save) {
                 Move move = saveMove(player, board, row, col, pieceType);
-                updateMovesInGame(board.getGame(), move);
+                addMoveToGame(board.getGame(), move);
             }
 
             return true; // true means move was made
@@ -53,7 +53,7 @@ public class MoveService {
         return false; // false means move was not made because position already take. // TODO: Will need error handling later
     }
 
-    private void updateMovesInGame(Game game, Move move) {
+    private void addMoveToGame(Game game, Move move) {
         List<Move> moves = game.getMoves();
         if (moves == null) {
             moves = new ArrayList<>();
