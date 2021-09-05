@@ -22,7 +22,7 @@ public class BoardService {
         Board board = new Board(game);
         List<Move> moves = game.getMoves();
         for (Move move : moves) {
-            moveService.makeMove(move.getPlayer(), board, move.getBoardRow(), move.getBoardColumn(), move.getPieceType());
+            moveService.makeMove(move.getPlayer(), board, move.getBoardRow(), move.getBoardColumn(), move.getPieceType(), false);
         }
         return board;
     }

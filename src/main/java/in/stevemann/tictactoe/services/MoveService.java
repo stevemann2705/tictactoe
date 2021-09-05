@@ -28,14 +28,14 @@ public class MoveService {
 
     public boolean makeMove(Player player, Board board, int row, int col) {
         PieceType playerPieceOnBoard = getPlayerPieceOnBoard(board, player);
-        return makeMove(player, board, row, col, playerPieceOnBoard);
+        return makeMove(player, board, row, col, playerPieceOnBoard, true);
     }
 
-    public boolean makeMove(Player player, Board board, int row, int col, PieceType pieceType) {
+    public boolean makeMove(Player player, Board board, int row, int col, PieceType pieceType, boolean save) {
         if (board.getBoard()[row][col] == 0) {
             if (PieceType.X.equals(pieceType)) board.getBoard()[row][col] = 1;
             if (PieceType.Y.equals(pieceType)) board.getBoard()[row][col] = 2;
-            saveMove(player, board.getGame(), row, col, pieceType);
+            if (save) saveMove(player, board.getGame(), row, col, pieceType);
             return true; // true means move was made
         }
         return false; // false means move was not made because position already take. // TODO: Will need error handling later
