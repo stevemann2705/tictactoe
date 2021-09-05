@@ -15,6 +15,6 @@ public class Board {
 
     public Board(Game game) {
         this.game = game;
-        board = new int[3][3];
+        board = new int[game.getGridType().getSize()][game.getGridType().getSize()];
     }
 }

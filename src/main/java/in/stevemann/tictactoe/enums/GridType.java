@@ -6,5 +6,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum GridType {
-    X3, X4, X5;
+    X3(3), X4(4), X5(5);
+
+    private int size;
 }
