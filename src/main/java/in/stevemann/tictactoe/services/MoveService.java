@@ -26,6 +26,11 @@ public class MoveService {
         return moveRepository.save(move);
     }
 
+    public boolean makeMove(Player player, Board board, int row, int col) {
+        PieceType playerPieceOnBoard = getPlayerPieceOnBoard(board, player);
+        return makeMove(player, board, row, col, playerPieceOnBoard);
+    }
+
     public boolean makeMove(Player player, Board board, int row, int col, PieceType pieceType) {
         if (board.getBoard()[row][col] == 0) {
             if (PieceType.X.equals(pieceType)) board.getBoard()[row][col] = 1;
@@ -34,5 +39,14 @@ public class MoveService {
             return true; // true means move was made
         }
         return false; // false means move was not made because position already take. // TODO: Will need error handling later
+    }
+
+    public PieceType getPlayerPieceOnBoard(Board board, Player player) {
+        boolean isFirstPlayer = board.getGame().getFirstPlayer().getUsername().equals(player.getUsername());
+        if (isFirstPlayer) {
+            return PieceType.X;
+        } else {
+            return PieceType.Y;
+        }
     }
 }
