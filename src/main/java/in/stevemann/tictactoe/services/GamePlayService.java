@@ -31,7 +31,7 @@ public class GamePlayService {
         Player secondPlayer = board.getGame().getSecondPlayer();
 
         boolean isGameInProgress = true;
-        while (isGameInProgress && !boardService.isBoardFull(board)) {
+        while (isGameInProgress) {
             PrintBoardUtil.printCurrentBoard(board);
             int position = getPosition(userInputReader, secondPlayerTurn, board.getGame().getGridType());
             // pause game if position is -10

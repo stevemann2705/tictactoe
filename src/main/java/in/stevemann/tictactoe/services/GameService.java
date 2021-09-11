@@ -20,7 +20,7 @@ public class GameService {
     private final GameRepository gameRepository;
     private final PlayerService playerService;
 
-    public Game save(Game game) {
+    private Game save(Game game) {
         return gameRepository.save(game);
     }
 
@@ -60,7 +60,7 @@ public class GameService {
         return save(game);
     }
 
-    public Game updateGameStatus(Game game, PieceType pieceType) {
+    private Game updateGameStatus(Game game, PieceType pieceType) {
         if (PieceType.X.equals(pieceType)) {
             game.setStatus(GameStatus.FIRST_PLAYER_WON);
         }
@@ -72,6 +72,11 @@ public class GameService {
 
     // returns if game is still in progress
     public boolean isGameInProgress(Board board, PieceType pieceType, int position) {
+        // return false if game is not in progress or paused
+        if (!board.getGame().getStatus().equals(GameStatus.IN_PROGRESS) && !board.getGame().getStatus().equals(GameStatus.PAUSED)) {
+            return false;
+        }
+
         int row = (position - 1) / board.getGame().getGridType().getSize();
         int col = (position - (row * board.getGame().getGridType().getSize())) - 1;
         PieceType wonBy = checkGameWonBy(board, pieceType, row, col);
@@ -93,7 +98,7 @@ public class GameService {
     }
 
     // Returns PieceType that won. Else returns null
-    public PieceType checkGameWonBy(Board board, PieceType pieceType, int row, int col) {
+    private PieceType checkGameWonBy(Board board, PieceType pieceType, int row, int col) {
         int s = pieceType.getValue();
 
         //check column for a win
@@ -138,6 +143,10 @@ public class GameService {
         }
 
         return null;
+    }
+
+    public Game pauseGameByCode(String gameCode) {
+        return pauseGame(findGame(gameCode));
     }
 
     public Game pauseGame(Game game) {

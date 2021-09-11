@@ -21,18 +21,11 @@ public class BoardService {
     public Board getBoard(Game game) {
         Board board = new Board(game);
         List<Move> moves = game.getMoves();
-        for (Move move : moves) {
-            moveService.makeMove(move.getPlayer(), board, move.getBoardRow(), move.getBoardColumn(), move.getPieceType(), false);
-        }
-        return board;
-    }
-
-    public boolean isBoardFull(Board board) {
-        for (int row = 0; row < board.getBoard().length; row++) {
-            for (int col = 0; col < board.getBoard()[0].length; col++) {
-                if (board.getBoard()[row][col] == 0) return false;
+        if (moves != null) {
+            for (Move move : moves) {
+                moveService.makeMove(move.getPlayer(), board, move.getBoardRow(), move.getBoardColumn(), move.getPieceType(), false);
             }
         }
-        return true;
+        return board;
     }
 }
