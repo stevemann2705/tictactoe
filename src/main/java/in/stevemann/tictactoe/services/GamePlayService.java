@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
+import java.util.Random;
 import java.util.Scanner;
 
 @Service
@@ -32,23 +33,28 @@ public class GamePlayService {
         boolean isGameInProgress = true;
         while (isGameInProgress) {
             PrintBoardUtil.printCurrentBoard(board);
-            int position = getPosition(userInputReader, secondPlayerTurn, board.getGame().getGridType());
+            Player turnPlayer = (secondPlayerTurn) ? secondPlayer : firstPlayer;
+
+            int position;
+            if(turnPlayer.isAutomated()) {
+                position = moveService.getRandomEmptyPositionOnBoard(board);
+            } else {
+                position = getPosition(userInputReader, secondPlayerTurn, board.getGame().getGridType());
+            }
             // pause game if position is -10
             if (position == -10) {
                 gameService.pauseGame(board.getGame());
                 return;
             }
 
-            Player turn = (secondPlayerTurn) ? secondPlayer : firstPlayer;
-
-            boolean isValidPosition = moveService.makeMove(turn, board, position);
+            boolean isValidPosition = moveService.makeMove(turnPlayer, board, position);
 
             if (!isValidPosition) {
                 System.out.println("Position entered is already marked as filled. Please choose another position");
                 playGame(board, secondPlayerTurn);
                 return;
             }
-            PieceType playerPieceOnBoard = moveService.getPlayerPieceOnBoard(board, turn);
+            PieceType playerPieceOnBoard = moveService.getPlayerPieceOnBoard(board, turnPlayer);
 
             isGameInProgress = gameService.isGameInProgress(board, playerPieceOnBoard, position);
 

@@ -7,6 +7,7 @@ import in.stevemann.tictactoe.enums.PieceType;
 import in.stevemann.tictactoe.pojos.Board;
 import in.stevemann.tictactoe.repositories.MoveRepository;
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.RandomUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -51,6 +52,16 @@ public class MoveService {
             return true; // true means move was made
         }
         return false; // false means move was not made because position already take. // TODO: Will need error handling later
+    }
+
+    public int getRandomEmptyPositionOnBoard(Board board) {
+        int position = RandomUtils.nextInt(1, board.getGame().getGridType().getSize() * board.getGame().getGridType().getSize() + 1);
+        int row = (position - 1) / board.getGame().getGridType().getSize();
+        int col = (position - (row * board.getGame().getGridType().getSize())) - 1;
+        while (board.getBoard()[row][col] != 0) {
+            return getRandomEmptyPositionOnBoard(board);
+        }
+        return position;
     }
 
     private void addMoveToGame(Game game, Move move) {

@@ -30,7 +30,6 @@ public class GamePlayController {
                           @RequestParam(required = false) GridType gridType) {
         Player firstPlayer;
         if (firstUsername == null) {
-            // TODO: Make this an automated player
             firstPlayer = playerService.newPlayer("Test Player 1", "testplayer1" + new Random().nextInt(100));
         } else {
             firstPlayer = playerService.getPlayerByUsername(firstUsername);
@@ -39,7 +38,6 @@ public class GamePlayController {
 
         Player secondPlayer;
         if (secondUsername == null) {
-            // TODO: Make this an automated player
             secondPlayer = playerService.newPlayer("Test Player 2", "testplayer2" + new Random().nextInt(100));
         } else {
             secondPlayer = playerService.getPlayerByUsername(secondUsername);
@@ -67,5 +65,30 @@ public class GamePlayController {
 
         PrintBoardUtil.printPositions(board);
         gamePlayService.playGame(board, secondPlayerTurn);
+    }
+
+    @GetMapping("/singleplayer")
+    public void startSinglePlayerGame(@RequestParam(required = false) String playerUsername,
+                                      @RequestParam(required = false) GridType gridType) {
+        Player firstPlayer;
+        if (playerUsername == null) {
+            firstPlayer = playerService.newPlayer("Test Player 1", "testplayer1" + new Random().nextInt(100));
+        } else {
+            firstPlayer = playerService.getPlayerByUsername(playerUsername);
+        }
+
+
+        Player secondPlayer = playerService.getAutomatedPlayer();
+
+        if (gridType == null) {
+            gridType = GridType.X3;
+        }
+
+        Game game = gameService.newGame(firstPlayer, secondPlayer, gridType);
+        Board board = boardService.newBoard(game);
+
+        PrintBoardUtil.printPositions(board);
+
+        gamePlayService.playGame(board);
     }
 }

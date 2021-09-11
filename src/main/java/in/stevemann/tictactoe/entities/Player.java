@@ -13,4 +13,6 @@ import javax.persistence.Entity;
 public class Player extends BaseEntity {
     @Column(nullable = false, unique = true)
     private String username;
+
+    private boolean isAutomated;
 }

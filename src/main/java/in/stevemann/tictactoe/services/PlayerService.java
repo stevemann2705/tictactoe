@@ -15,6 +15,9 @@ import org.springframework.web.server.ResponseStatusException;
 public class PlayerService {
     private final PlayerRepository playerRepository;
 
+    // Move to application properties or DB
+    private final String computerUsername = "computer";
+
     public Player findPlayerByUsername(String username) {
         return playerRepository.findOne(
                 QPlayer.player.enabled.isTrue()
@@ -36,11 +39,13 @@ public class PlayerService {
     }
 
     public Player newPlayer(String name, String username) {
-        if (playerExistsByUserName(username)) throw new ResponseStatusException(HttpStatus.CONFLICT, "Username already exists.");
+        if (playerExistsByUserName(username))
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Username already exists.");
 
         Player player = new Player();
         player.setName(name);
         player.setUsername(username);
+        player.setAutomated(false);
         return playerRepository.save(player);
     }
 
@@ -54,5 +59,17 @@ public class PlayerService {
         Player player = getPlayerByUsername(playerInputDto.getUsername());
         CopyNonNullUtil.copyNonNullProperties(playerInputDto, player);
         return playerRepository.save(player);
+    }
+
+    public Player getAutomatedPlayer() {
+        Player automatedPlayer = findPlayerByUsername(computerUsername);
+        if (automatedPlayer == null) {
+            Player player = new Player();
+            player.setName("Computer");
+            player.setUsername(computerUsername);
+            player.setAutomated(true);
+            return playerRepository.save(player);
+        }
+        return automatedPlayer;
     }
 }
