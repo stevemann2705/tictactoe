@@ -402,9 +402,14 @@ Prints the positional grid, current board and continues the game.
 # TODOs
 
 - ~~Complete the documentation~~
-- Write tests
+- ~~Write tests~~
 - Better error handling
 - Create automated player
 - Move gameplay to REST APIs
 - Visualise the saved data as statistics
 - Probably create a front end for this
+
+# Notes
+
+1. Test for GameplayService weren't written because currently the game is on console which needs to be moved to REST.
+2. We don't check/update game status automatically after each move which should be done and is a task for next version.
