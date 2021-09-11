@@ -13,6 +13,9 @@
       - [2.1. GET /game](#21-get-game)
       - [2.2. POST /game](#22-post-game)
       - [2.3. DELETE /game](#23-delete-game)
+    - [3. /gameplay](#3-gameplay)
+      - [3.1. GET /gameplay](#31-get-gameplay)
+      - [3.2. GET /gameplay/{gameCode}](#32-get-gameplay-gamecode)
 - [TODOs](#todos)
 
 <!-- /TOC -->
@@ -348,9 +351,57 @@ Deletes the game (disables it in database). Returns the disabled game.
 }
 ```
 
+## 3. /gameplay
+
+### 3.1. GET /gameplay
+**Param**: *firstUsername* (optional) <br>
+Uses the player as first player. Throws 404-Player not found if player not found. 
+Note: Creates a random player if not passed.
+
+**Param**: *secondUsername* (optional) <br>
+Uses the player as second player. Throws 404-Player not found if player not found. 
+Note: Creates a random player if not passed.
+
+**Param**: *gridType* (optional) <br>
+Grid Type for the game. Value can be X3, X4, X5 as of now
+
+The game runs on the console. Moving the game to REST is in TODO. As soon as the API is hit, go to the console to see a positinal grid with possible positional inputs for the game.
+
+#### Sample positional grid for 3X3 grid type
+```
+POSITIONS TO BE ENTERED ARE: 
+ + - + - + - +
+ | 1 | 2 | 3 |
+ + - + - + - +
+ | 4 | 5 | 6 |
+ + - + - + - +
+ | 7 | 8 | 9 |
+ + - + - + - +
+```
+
+Positional numbers to be used as inputs for each turn. Prints current board after each turn.
+
+#### Sample current board output
+```
+CURRENT BOARD:
++ - + - + - +
+| X |   |   |
++ - + - + - +
+| O | X |   |
++ - + - + - +
+|   |   | O |
++ - + - + - +
+```
+
+### 3.2. GET /gameplay/{gamecode}
+**Path Param**: *gamecode* <br>
+The code of the game you want to resume.
+
+Prints the positional grid, current board and continues the game.
+
 # TODOs
 
-- Complete the documentation
+- ~~Complete the documentation~~
 - Write tests
 - Better error handling
 - Create automated player
