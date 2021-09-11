@@ -15,7 +15,8 @@
       - [2.3. DELETE /game](#23-delete-game)
     - [3. /gameplay](#3-gameplay)
       - [3.1. GET /gameplay](#31-get-gameplay)
-      - [3.2. GET /gameplay/{gameCode}](#32-get-gameplay-gamecode)
+      - [3.2. GET /gameplay/{gameCode}](#32-get-gameplaygamecode)
+      - [3.3. GET /gameplay/singleplayer](#33-get-gameplaysingleplayer)
 - [TODOs](#todos)
 
 <!-- /TOC -->
@@ -393,11 +394,21 @@ CURRENT BOARD:
 + - + - + - +
 ```
 
-### 3.2. GET /gameplay/{gamecode}
-**Path Param**: *gamecode* <br>
+### 3.2. GET /gameplay/{gameCode}
+**Path Param**: *gameCode* <br>
 The code of the game you want to resume.
 
 Prints the positional grid, current board and continues the game.
+
+### 3.3. GET /gameplay/singleplayer
+**Param**: *playerUsername* (optional) <br>
+Uses the player as first player. Throws 404-Player not found if player not found.
+Note: Creates a random player if not passed.
+
+**Param**: *gridType* (optional) <br>
+Grid Type for the game. Value can be X3, X4, X5 as of now
+
+Second Player will be computer. Gameplay similar to [3.1. GET /gameplay](#31-get-gameplay)
 
 # TODOs
 
