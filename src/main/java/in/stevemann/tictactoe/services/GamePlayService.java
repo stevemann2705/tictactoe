@@ -18,7 +18,6 @@ import java.util.Scanner;
 public class GamePlayService {
     private final GameService gameService;
     private final MoveService moveService;
-    private final BoardService boardService;
 
     public void playGame(Board board){
         playGame(board, false);
@@ -56,13 +55,9 @@ public class GamePlayService {
             secondPlayerTurn = !secondPlayerTurn; // change turn
         }
 
-        if (!isGameInProgress) {
-            PrintBoardUtil.printCurrentBoard(board);
-            System.out.println(" GAME OVER!!!");
-            System.out.println(board.getGame().getStatus());
-        } else {
-            PrintBoardUtil.printCurrentBoard(board);
-        }
+        PrintBoardUtil.printCurrentBoard(board);
+        System.out.println(" GAME OVER!!!");
+        System.out.println(board.getGame().getStatus());
     }
 
     private int getPosition(Scanner userInputReader, Boolean secondPlayerTurn, GridType gridType) throws NumberFormatException {
