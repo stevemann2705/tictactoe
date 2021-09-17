@@ -58,7 +58,7 @@ public class MoveService {
         int position = RandomUtils.nextInt(1, board.getGame().getGridType().getSize() * board.getGame().getGridType().getSize() + 1);
         int row = (position - 1) / board.getGame().getGridType().getSize();
         int col = (position - (row * board.getGame().getGridType().getSize())) - 1;
-        while (board.getBoard()[row][col] != 0) {
+        if (board.getBoard()[row][col] != 0) {
             return getRandomEmptyPositionOnBoard(board);
         }
         return position;
