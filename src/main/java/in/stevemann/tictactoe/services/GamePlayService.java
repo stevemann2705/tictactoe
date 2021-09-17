@@ -6,6 +6,7 @@ import in.stevemann.tictactoe.entities.Player;
 import in.stevemann.tictactoe.enums.GridType;
 import in.stevemann.tictactoe.enums.PieceType;
 import in.stevemann.tictactoe.pojos.Board;
+import in.stevemann.tictactoe.utils.AutomatedPlayerUtil;
 import in.stevemann.tictactoe.utils.PrintBoardUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

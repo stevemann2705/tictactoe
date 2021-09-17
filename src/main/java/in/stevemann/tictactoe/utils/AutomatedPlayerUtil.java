@@ -1,4 +1,4 @@
-package in.stevemann.tictactoe.services;
+package in.stevemann.tictactoe.utils;
 
 import in.stevemann.tictactoe.enums.PieceType;
 import in.stevemann.tictactoe.pojos.Board;
