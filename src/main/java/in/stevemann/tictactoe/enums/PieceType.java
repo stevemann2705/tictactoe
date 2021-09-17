@@ -8,5 +8,9 @@ import lombok.Getter;
 public enum PieceType {
     X(1), O(2);
 
-    private int value;
+    private final int value;
+
+    public PieceType getOpponent() {
+        return (X.equals(this)) ? O : X;
+    }
 }

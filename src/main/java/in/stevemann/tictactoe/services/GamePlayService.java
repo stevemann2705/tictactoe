@@ -11,7 +11,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
-import java.util.Random;
 import java.util.Scanner;
 
 @Service
@@ -37,7 +36,7 @@ public class GamePlayService {
 
             int position;
             if(turnPlayer.isAutomated()) {
-                position = moveService.getRandomEmptyPositionOnBoard(board);
+                position = AutomatedPlayerUtil.findBestMove(board, moveService.getPlayerPieceOnBoard(board, turnPlayer));
             } else {
                 position = getPosition(userInputReader, secondPlayerTurn, board.getGame().getGridType());
             }
