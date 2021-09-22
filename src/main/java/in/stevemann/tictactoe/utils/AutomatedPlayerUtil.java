@@ -124,7 +124,7 @@ public class AutomatedPlayerUtil {
 
     // This will return the best possible
 // move for the player
-    static int findBestMove(Board board, PieceType playerPiece) {
+    public static int findBestMove(Board board, PieceType playerPiece) {
         int bestVal = -1000;
         int row = -1;
         int col = -1;

@@ -415,7 +415,7 @@ Second Player will be computer. Gameplay similar to [3.1. GET /gameplay](#31-get
 - ~~Complete the documentation~~
 - ~~Write tests~~
 - Better error handling
-- Create automated player
+- ~~Create automated player~~ (Using [Minimax Algorithm](https://en.wikipedia.org/wiki/Minimax) for automated player)
 - Move gameplay to REST APIs
 - Visualise the saved data as statistics
 - Probably create a front end for this
